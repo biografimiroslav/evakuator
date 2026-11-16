@@ -190,10 +190,10 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </a>
               </div>
 
-              {/* Close Button with solid #EA580C bg and pure white text */}
+              {/* Close Button with solid #EA580C bg, pure white text and tactile feedback */}
               <button
                 onClick={handleClose}
-                className="w-full max-w-md py-3.5 px-4 bg-[#EA580C] hover:bg-[#C2410C] text-white font-heading font-bold text-sm uppercase tracking-wider rounded transition-colors shadow-sm"
+                className="w-full max-w-md py-3.5 px-4 bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.98] text-white font-heading font-bold text-sm uppercase tracking-wider rounded transition-all duration-200 shadow-sm hover:shadow-lg hover:shadow-orange-600/25"
               >
                 <span className="text-white font-bold">{t.modalSuccessClose}</span>
               </button>
@@ -445,18 +445,18 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </div>
               </div>
 
-              {/* Submit Button with solid #EA580C background and pure white #FFFFFF text */}
+              {/* Submit Button with solid #EA580C background, pure white #FFFFFF text, and tactile micro-interaction */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.99] text-white font-heading font-black text-sm sm:text-base py-3.5 px-4 rounded uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2"
+                className="group w-full bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.98] text-white font-heading font-black text-sm sm:text-base py-3.5 px-4 rounded uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-orange-600/25 flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <span className="text-white font-bold">{t.modalSubmitting}</span>
                 ) : (
                   <>
                     <span className="text-white font-bold">{t.modalSubmitBtn}</span>
-                    <ArrowRight className="w-4 h-4 text-white stroke-[2.5]" />
+                    <ArrowRight className="w-4 h-4 text-white stroke-[2.5] group-hover:translate-x-1 transition-transform duration-200" />
                   </>
                 )}
               </button>

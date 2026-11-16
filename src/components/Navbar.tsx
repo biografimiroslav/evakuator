@@ -15,8 +15,26 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenOrderModal,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const t = siteTranslations[currentLang];
   const languages: Language[] = ['UA', 'EN', 'HU', 'SK'];
+
+  // Scroll Progress calculation
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll > 0) {
+        const currentScroll = window.scrollY;
+        const progress = Math.min(100, Math.max(0, (currentScroll / totalScroll) * 100));
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Prevent background scrolling while full-screen mobile menu is open
   useEffect(() => {
@@ -33,6 +51,14 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <>
       <header className="sticky top-0 z-40 bg-brand-surface/95 backdrop-blur-md border-b border-brand-border">
+        {/* Scroll Progress Line */}
+        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-transparent overflow-hidden pointer-events-none">
+          <div
+            className="h-full bg-[#EA580C] transition-[width] duration-150 ease-out"
+            style={{ width: `${scrollProgress}%` }}
+          />
+        </div>
+
         {/* Main navbar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 md:py-3.5 flex items-center justify-between gap-3">
           {/* Brand identity */}
@@ -90,13 +116,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{t.hotlinePhone}</span>
             </a>
 
-            {/* Primary CTA button with solid orange bg (Desktop >= 768px, hidden on mobile < 768px) */}
+            {/* Primary CTA button with solid orange bg, tactile click and arrow slide */}
             <button
               onClick={onOpenOrderModal}
-              className="hidden md:flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.98] text-white px-4 py-2 sm:px-4 sm:py-2.5 rounded font-heading font-bold text-xs sm:text-sm tracking-wide shadow-sm transition-all shrink-0"
+              className="group hidden md:flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.98] text-white px-4 py-2 sm:px-4 sm:py-2.5 rounded font-heading font-bold text-xs sm:text-sm tracking-wide shadow-sm hover:shadow-lg hover:shadow-orange-600/25 transition-all duration-200 shrink-0"
             >
               <span className="text-white font-bold">{t.orderTowTruck}</span>
-              <ArrowRight className="w-4 h-4 text-white stroke-[2.5]" />
+              <ArrowRight className="w-4 h-4 text-white stroke-[2.5] group-hover:translate-x-1 transition-transform duration-200" />
             </button>
 
             {/* Mobile Burger Menu Button (< 768px) */}
@@ -206,10 +232,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setIsMenuOpen(false);
                 onOpenOrderModal();
               }}
-              className="flex items-center justify-center gap-2 w-full py-4 px-4 bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.99] text-white font-heading font-bold text-sm uppercase tracking-wider rounded transition-all shadow-md"
+              className="group flex items-center justify-center gap-2 w-full py-4 px-4 bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.98] text-white font-heading font-bold text-sm uppercase tracking-wider rounded transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-orange-600/25"
             >
               <span className="text-white font-bold">{t.orderTowTruck}</span>
-              <ArrowRight className="w-4 h-4 text-white stroke-[2.5]" />
+              <ArrowRight className="w-4 h-4 text-white stroke-[2.5] group-hover:translate-x-1 transition-transform duration-200" />
             </button>
           </div>
         </div>

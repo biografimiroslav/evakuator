@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ServicesSection } from './components/ServicesSection';
@@ -12,6 +12,39 @@ import { PhoneCall } from 'lucide-react';
 export const App: React.FC = () => {
   const [currentLang, setCurrentLang] = useState<Language>('UA');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  // Global smooth scroll reveal observer
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') {
+      document.querySelectorAll('.reveal-init').forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    const elements = document.querySelectorAll('.reveal-init');
+    elements.forEach((el) => observer.observe(el));
+
+    // Safety fallback so nothing ever stays hidden
+    const timer = setTimeout(() => {
+      document.querySelectorAll('.reveal-init').forEach((el) => el.classList.add('is-visible'));
+    }, 1500);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, [currentLang]);
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text font-sans selection:bg-brand-orange selection:text-white flex flex-col">
@@ -66,7 +99,7 @@ export const App: React.FC = () => {
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center justify-center gap-1.5 py-3 px-2 bg-[#EA580C] hover:bg-[#C2410C] active:bg-[#C2410C] text-white font-heading font-bold text-xs uppercase tracking-wide rounded text-center transition-transform active:scale-95 shadow-sm"
+            className="flex items-center justify-center gap-1.5 py-3 px-2 bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.98] text-white font-heading font-bold text-xs uppercase tracking-wide rounded text-center transition-all duration-200 shadow-sm hover:shadow-lg hover:shadow-orange-600/25"
           >
             <span className="text-white font-bold">Замовити евакуатор</span>
           </button>

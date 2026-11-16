@@ -13,7 +13,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenOrderModal })
 
   return (
     <footer className="bg-brand-surface border-t border-brand-border pt-12 pb-24 md:pb-14 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-10">
+      <div className="reveal-init max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-10">
         {/* Brand & Short Tagline */}
         <div className="space-y-2 max-w-sm">
           <div>
@@ -55,13 +55,13 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenOrderModal })
             <span>{t.hotlinePhone}</span>
           </a>
 
-          {/* Button with solid #EA580C bg and pure white #FFFFFF text */}
+          {/* Button with solid #EA580C bg, tactile feedback and hover arrow slide */}
           <button
             onClick={onOpenOrderModal}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.98] text-white font-heading font-bold text-xs sm:text-sm uppercase tracking-wider rounded transition-all shadow-sm"
+            className="group flex items-center justify-center gap-2 px-5 py-2.5 bg-[#EA580C] hover:bg-[#C2410C] active:scale-[0.98] text-white font-heading font-bold text-xs sm:text-sm uppercase tracking-wider rounded transition-all duration-200 shadow-sm hover:shadow-lg hover:shadow-orange-600/25"
           >
             <span className="text-white font-bold">{t.orderTowTruck}</span>
-            <ArrowRight className="w-4 h-4 text-white stroke-[2.5]" />
+            <ArrowRight className="w-4 h-4 text-white stroke-[2.5] group-hover:translate-x-1 transition-transform duration-200" />
           </button>
         </div>
       </div>
